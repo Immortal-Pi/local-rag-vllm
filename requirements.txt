@@ -7,5 +7,7 @@ langchain-pinecone
 langchain-openai
 langchain-community
 langchain-groq
-
+openai 
+httpx
+pydantic-settings
 -e .

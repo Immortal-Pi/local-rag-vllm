@@ -8,7 +8,7 @@ from qdrant_client.models import (
     FieldCondition,
     MatchValue,
 )
-from config import settings
+from src.config import settings
 
 
 class QdrantStore:

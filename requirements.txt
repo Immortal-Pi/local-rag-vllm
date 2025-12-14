@@ -10,4 +10,7 @@ langchain-groq
 openai 
 httpx
 pydantic-settings
+qdrant-client
+fastembed
+
 -e .

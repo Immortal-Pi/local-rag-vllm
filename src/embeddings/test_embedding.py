@@ -1,7 +1,7 @@
 import requests
 import json
 
-EMBED_URL = "http://172.202.46.95:8002/v1/embeddings"
+EMBED_URL = "http://172.202.46.95:8001/v1/embeddings"
 MODEL_NAME = "BAAI/bge-large-en-v1.5"
 
 payload = {

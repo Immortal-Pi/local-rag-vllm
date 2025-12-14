@@ -1,7 +1,7 @@
 # src/retrieval/retriever.py
 from typing import List, Dict, Any
 from src.embeddings.bge import BGEEmbeddingsVLLM
-from src.vectorstore.qdrant_store import QdrantStore
+from src.vectorstores.qdrant_store import QdrantStore
 from src.reranker.bge_reranker import BGEReranker
 from config import settings
 

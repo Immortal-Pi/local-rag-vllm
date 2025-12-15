@@ -12,5 +12,6 @@ httpx
 pydantic-settings
 qdrant-client
 fastembed
-
+fastapi
+uvicorn[standard]
 -e .

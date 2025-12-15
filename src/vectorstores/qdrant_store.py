@@ -63,30 +63,54 @@ class QdrantStore:
     # ---------------------------------------------------------
     # Vector / hybrid search
     # ---------------------------------------------------------
+    # def hybrid_search(
+    #     self,
+    #     query_vector: List[float],
+    #     limit: int = 100,
+    #     filters: Optional[Dict[str, Any]] = None,
+    # ):
+    #     qdrant_filter = None
+
+    #     if filters:
+    #         conditions = [
+    #             FieldCondition(
+    #                 key=key,
+    #                 match=MatchValue(value=value),
+    #             )
+    #             for key, value in filters.items()
+    #         ]
+    #         qdrant_filter = Filter(must=conditions)
+
+    #     results = self.client.search(
+    #         collection_name=self.collection,
+    #         query_vector=query_vector,
+    #         limit=limit,
+    #         query_filter=qdrant_filter,
+    #         with_payload=True,
+    #     )
+
+    #     return results
     def hybrid_search(
-        self,
-        query_vector: List[float],
-        limit: int = 100,
-        filters: Optional[Dict[str, Any]] = None,
+    self,
+    query_vector: List[float],
+    limit: int = 100,
+    filters: Optional[Dict[str, Any]] = None,
     ):
         qdrant_filter = None
-
         if filters:
             conditions = [
-                FieldCondition(
-                    key=key,
-                    match=MatchValue(value=value),
-                )
-                for key, value in filters.items()
+                FieldCondition(key=k, match=MatchValue(value=v))
+                for k, v in filters.items()
             ]
             qdrant_filter = Filter(must=conditions)
 
-        results = self.client.search(
+        results = self.client.query_points(
             collection_name=self.collection,
-            query_vector=query_vector,
+            query=query_vector,          # <- vector query
             limit=limit,
             query_filter=qdrant_filter,
             with_payload=True,
         )
 
-        return results
+        # query_points returns an object; points are in .points
+        return results.points

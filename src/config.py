@@ -9,14 +9,18 @@ class Settings(BaseSettings):
         extra='ignore'
     )
     # Qdrant Settings
+    QDRANT_URL: str
     QDRANT_HOST: str 
     QDRANT_PORT: int 
+    QDRANT_COLLECTION: str
     QDRANT_API_KEY: str 
+   
 
     # Embedding Settings
     EMBEDDING_BASE_URL: str 
     EMBEDDING_MODEL: str 
     EMBEDDING_DIM: int 
+    QUERY_INSTRUCTION: str
 
     # Retriever Settings 
     RERANKER_MODEL_NAME: str 
@@ -29,4 +33,4 @@ class Settings(BaseSettings):
     MAX_CONTEXT_CHUNKS: int = 8
 
 settings = Settings() 
-print("Loaded:", settings.QDRANT_HOST, settings.QDRANT_PORT)
+# print("Loaded:", settings.QDRANT_HOST, settings.QDRANT_PORT)

@@ -1,4 +1,5 @@
 import asyncio
+import uuid 
 from src.vectorstores.qdrant_store import QdrantStore
 from src.embeddings.bge import BGEEmbeddingsVLLM
 
@@ -15,7 +16,7 @@ async def main():
     vecs = await embed.embed_documents(texts)
     store.create_collection_if_not_exists(vector_dim=len(vecs[0]))
 
-    ids = ["t1", "a1", "b1"]
+    ids = [str(uuid.uuid4()) for _ in texts]
     payloads = [
         {"text": texts[0], "doc_title": "tesla_10k", "department": "finance"},
         {"text": texts[1], "doc_title": "apple_overview", "department": "product"},

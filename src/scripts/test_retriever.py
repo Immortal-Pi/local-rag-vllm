@@ -4,11 +4,20 @@ from src.retrieval.retriever import RAGRetriever
 async def main():
     r = RAGRetriever()
     out = await r.retrieve(
-        query="What did Tesla report as revenue in 2023?",
-        filters={"department": "finance"},
+        query="What is physical resource layer?",
+        # filters={"department": "finance"},
         k_candidates=20,
         k_final=5,
     )
+
+    print("\nDEBUG: returned ids/doc_titles/department:")
+    for p in out:
+        print(
+            "id=", p.get("id") or p.get("point_id"),
+            "| doc=", p.get("doc_title"),
+            "| dept=", p.get("department"),
+            "| score=", p.get("rerank_score"),
+        )
 
     print("\nReranked results:")
     for i, p in enumerate(out, 1):

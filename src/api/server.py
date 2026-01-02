@@ -24,8 +24,8 @@ app.add_middleware(
     allow_origins=[
         "http://127.0.0.1:8080",
         "http://localhost:8080",
-        "http://127.0.0.1:8000",
-        "http://localhost:8000",
+        # "http://127.0.0.1:8000",
+        # "http://localhost:8000",
         "null",
         "*",  # dev-friendly; tighten in prod
     ],
@@ -125,4 +125,4 @@ async def ask_endpoint(req: AskRequest, request: Request):
 # ----------------------------
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("src.api.server:app", host="127.0.0.1", port=8000, reload=False, workers=1)
+    uvicorn.run("src.api.server:app", host="127.0.0.1", port=8080, reload=False, workers=1)

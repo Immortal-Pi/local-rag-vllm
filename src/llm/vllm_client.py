@@ -36,7 +36,7 @@ class VLLMClient:
                 {"role": "user", "content": user_prompt},
             ],
             "temperature": 0.1,
-            "max_tokens": 1300,
+            "max_tokens": 2000,
         }
 
         resp = requests.post(

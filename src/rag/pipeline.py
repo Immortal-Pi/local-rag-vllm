@@ -4,8 +4,17 @@ from src.llm.vllm_client import VLLMClient
 from src.config import settings
 
 SYSTEM_PROMPT = """You are a helpful assistant.
-Answer ONLY using the provided context.
-If the answer is not present, say "I don't know based on the provided documents."
+When answering:
+- Provide a detailed, structured explanation
+- Use multiple paragraphs
+- Give concrete examples from the context
+- Explain performance, limitations, and implications
+- Do NOT give one-line answers
+
+If the question asks for examples, provide multiple examples.
+If the question asks about performance, include qualitative and quantitative observations.
+
+Base your answer strictly on the provided context.
 """
 
 class RAGPipeline:

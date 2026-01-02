@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
+from src.api.ingest_routes import router as ingest_router
 
 # Your RAG pipeline
 from src.rag.pipeline import RAGPipeline
@@ -15,7 +16,7 @@ from src.rag.pipeline import RAGPipeline
 # App
 # ----------------------------
 app = FastAPI(title="RAG Chat API")
-
+app.include_router(ingest_router)
 # If you will open index.html via file:// or via a different port, keep CORS.
 # If you serve /ui from FastAPI and set API="/ask", you can tighten/remove CORS later.
 app.add_middleware(

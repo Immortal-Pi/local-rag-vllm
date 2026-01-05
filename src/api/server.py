@@ -7,6 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 from src.api.ingest_routes import router as ingest_router
+from src.config import settings 
+from src.logging.audit import ensure_log_table, log_rag_to_db, get_client_ip
 
 # Your RAG pipeline
 from src.rag.pipeline import RAGPipeline
@@ -43,6 +45,7 @@ def on_startup() -> None:
     # Load UI once
     try:
         app.state.html_page = Path("index.html").read_text(encoding="utf-8")
+        ensure_log_table(settings.PG_URI, settings.PG_SCHEMA)
     except FileNotFoundError:
         app.state.html_page = "<h1>index.html not found</h1>"
 
@@ -102,11 +105,23 @@ async def ask_endpoint(req: AskRequest, request: Request):
     if not q:
         return AskResponse(error="Empty question")
 
+    client_ip=get_client_ip(request)
+    # user_id=None
     try:
         out = await rag.ask(
             query=q,
             filters=req.filters,  # can be None
             k=req.k,
+        )
+
+        log_rag_to_db(
+            pg_uri=settings.PG_URI,
+            schema=settings.PG_SCHEMA,
+            client_ip=client_ip,
+            question=q,
+            response=out.get("answer"),
+            sources=out.get("sources"),
+            error=None,
         )
 
         # out expected like: {"answer": "...", "sources": [{"doc_title":..., "page":...}, ...]}
@@ -117,6 +132,16 @@ async def ask_endpoint(req: AskRequest, request: Request):
         )
 
     except Exception as e:
+        
+        log_rag_to_db(
+            pg_uri=settings.PG_URI,
+            schema=settings.PG_SCHEMA,
+            client_ip=client_ip,
+            question=q,
+            response=None,
+            sources=None,
+            error=str(e),
+        )
         return AskResponse(error=str(e))
 
 

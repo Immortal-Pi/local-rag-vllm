@@ -32,5 +32,9 @@ class Settings(BaseSettings):
     # General 
     MAX_CONTEXT_CHUNKS: int = 8
 
+    # logging database
+    PG_URI: str
+    PG_SCHEMA: str = "chat_log"
+
 settings = Settings() 
 # print("Loaded:", settings.QDRANT_HOST, settings.QDRANT_PORT)
